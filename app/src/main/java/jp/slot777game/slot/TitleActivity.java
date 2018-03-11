@@ -5,6 +5,8 @@ package jp.slot777game.slot;
         import android.os.Bundle;
         import android.view.View;
 
+        import jp.slot777game.slotgame.R;
+
 public class TitleActivity extends AppCompatActivity {
 
     @Override

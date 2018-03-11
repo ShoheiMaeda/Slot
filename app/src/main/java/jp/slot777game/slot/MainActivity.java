@@ -4,18 +4,19 @@ package jp.slot777game.slot;
         import android.support.v7.app.AppCompatActivity;
         import android.view.View;
         import android.widget.Button;
+        import android.widget.LinearLayout;
         import android.widget.Toast;
         import android.widget.ImageView;
         import android.widget.TextView;
         import android.os.Bundle;
-        import android.os.Handler;
         import android.graphics.drawable.AnimationDrawable;
         import android.view.Gravity;
         import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    Button b_roll;
+    Button button;
 
     ImageView image1,image2,image3;
 
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     int img1,img2,img3;
 
     int exp;
+
+    int click = 0;
 
     int explotion[] = new int[3];
 
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         r = new Random();
 
-        b_roll = (Button) findViewById(R.id.b_roll);
+        button = (Button) findViewById(R.id.b_roll);
 
         TextView text = (TextView) findViewById(R.id.textView);
         text.setText(String.valueOf(coin));
@@ -51,46 +54,131 @@ public class MainActivity extends AppCompatActivity {
         image2.setImageResource(R.drawable.ic_hatena);
         image3.setImageResource(R.drawable.ic_hatena);
 
-        b_roll.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(mgamestate == 0){
-                    coin = coin + 3;
-                    mgamestate = 1;
+                if(click==3){
+
+                    img3 = r.nextInt(6) + 1;
+
+                    switch (img3){
+                        case 1:
+                            image3.setImageResource(R.drawable.ic_knife);
+                            break;
+                        case 2:
+                            image3.setImageResource(R.drawable.ic_ninja1);
+                            break;
+                        case 3:
+                            image3.setImageResource(R.drawable.ic_ninja2);
+                            break;
+                        case 4:
+                            image3.setImageResource(R.drawable.ic_shuriken1);
+                            break;
+                        case 5:
+                            image3.setImageResource(R.drawable.ic_shuriken2);
+                            break;
+                        case 6:
+                            image3.setImageResource(R.drawable.ic_explotion);
+                            explotion[2] = 1;
+                            break;
+                    }
+
+                    click = 0;
+
+                    getScore();
+
+                    button.setText("Roll !");
+
                 }
 
-                coin = coin - 1;
 
-                TextView text = (TextView) findViewById(R.id.textView);
-                text.setText(String.valueOf(coin));
+                if(click==2){
 
-                image1.setImageResource(R.drawable.anim);
-                final AnimationDrawable image1anim = (AnimationDrawable) image1.getDrawable();
-                image1anim.start();
+                    img2 = r.nextInt(6) + 1;
 
-                image2.setImageResource(R.drawable.anim);
-                final AnimationDrawable image2anim = (AnimationDrawable) image2.getDrawable();
-                image2anim.start();
-
-                image3.setImageResource(R.drawable.anim);
-                final AnimationDrawable image3anim = (AnimationDrawable) image3.getDrawable();
-                image3anim.start();
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable(){
-                    @Override
-                    public void run(){
-                        image1anim.stop();
-                        image2anim.stop();
-                        image3anim.stop();
-
-                        setImages();
-
-                        getScore();
-
+                    switch (img2){
+                        case 1:
+                            image2.setImageResource(R.drawable.ic_knife);
+                            break;
+                        case 2:
+                            image2.setImageResource(R.drawable.ic_ninja1);
+                            break;
+                        case 3:
+                            image2.setImageResource(R.drawable.ic_ninja2);
+                            break;
+                        case 4:
+                            image2.setImageResource(R.drawable.ic_shuriken1);
+                            break;
+                        case 5:
+                            image2.setImageResource(R.drawable.ic_shuriken2);
+                            break;
+                        case 6:
+                            image2.setImageResource(R.drawable.ic_explotion);
+                            explotion[1] = 1;
+                            break;
                     }
-                }, 500);
+
+                    click = 3;
+
+                }
+
+                if (click==1){
+
+                    img1 = r.nextInt(6) + 1;
+
+                    switch (img1){
+                        case 1:
+                            image1.setImageResource(R.drawable.ic_knife);
+                            break;
+                        case 2:
+                            image1.setImageResource(R.drawable.ic_ninja1);
+                            break;
+                        case 3:
+                            image1.setImageResource(R.drawable.ic_ninja2);
+                            break;
+                        case 4:
+                            image1.setImageResource(R.drawable.ic_shuriken1);
+                            break;
+                        case 5:
+                            image1.setImageResource(R.drawable.ic_shuriken2);
+                            break;
+                        case 6:
+                            image1.setImageResource(R.drawable.ic_explotion);
+                            explotion[0] = 1;
+                            break;
+                    }
+
+                    click = 2;
+
+                }
+
+
+                if(click==0) {
+
+                    button.setText("Stop !");
+
+                    coin = coin - 1;
+
+                    TextView text = (TextView) findViewById(R.id.textView);
+                    text.setText(String.valueOf(coin));
+
+                    image1.setImageResource(R.drawable.anim);
+                    final AnimationDrawable image1anim = (AnimationDrawable) image1.getDrawable();
+                    image1anim.start();
+
+                    image2.setImageResource(R.drawable.anim);
+                    final AnimationDrawable image2anim = (AnimationDrawable) image2.getDrawable();
+                    image2anim.start();
+
+                    image3.setImageResource(R.drawable.anim);
+                    final AnimationDrawable image3anim = (AnimationDrawable) image3.getDrawable();
+                    image3anim.start();
+
+                    click = 1;
+
+                }
+
 
 
             }
@@ -101,117 +189,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void  setImages(){
-
-        img1 = r.nextInt(6) + 1;
-        img2 = r.nextInt(6) + 1;
-        img3 = r.nextInt(6) + 1;
-
-        switch (img1){
-            case 1:
-                image1.setImageResource(R.drawable.ic_knife);
-                break;
-            case 2:
-                image1.setImageResource(R.drawable.ic_ninja1);
-                break;
-            case 3:
-                image1.setImageResource(R.drawable.ic_ninja2);
-                break;
-            case 4:
-                image1.setImageResource(R.drawable.ic_shuriken1);
-                break;
-            case 5:
-                image1.setImageResource(R.drawable.ic_shuriken2);
-                break;
-            case 6:
-                image1.setImageResource(R.drawable.ic_explotion);
-                explotion[0] = 1;
-                break;
-        }
-
-        switch (img2){
-            case 1:
-                image2.setImageResource(R.drawable.ic_knife);
-                break;
-            case 2:
-                image2.setImageResource(R.drawable.ic_ninja1);
-                break;
-            case 3:
-                image2.setImageResource(R.drawable.ic_ninja2);
-                break;
-            case 4:
-                image2.setImageResource(R.drawable.ic_shuriken1);
-                break;
-            case 5:
-                image2.setImageResource(R.drawable.ic_shuriken2);
-                break;
-            case 6:
-                image2.setImageResource(R.drawable.ic_explotion);
-                explotion[1] = 1;
-                break;
-        }
-
-        switch (img3){
-            case 1:
-                image3.setImageResource(R.drawable.ic_knife);
-                break;
-            case 2:
-                image3.setImageResource(R.drawable.ic_ninja1);
-                break;
-            case 3:
-                image3.setImageResource(R.drawable.ic_ninja2);
-                break;
-            case 4:
-                image3.setImageResource(R.drawable.ic_shuriken1);
-                break;
-            case 5:
-                image3.setImageResource(R.drawable.ic_shuriken2);
-                break;
-            case 6:
-                image3.setImageResource(R.drawable.ic_explotion);
-                explotion[2] = 1;
-                break;
-        }
-    }
-
 
     public void getScore(){
 
         exp = explotion[0]+explotion[1]+explotion[2];
 
         if(exp == 3){
-            Toast ts = Toast.makeText(this,"大爆発!　-５",Toast.LENGTH_SHORT);
-            ts.setGravity(Gravity.TOP, 0, 630);
-            ts.show();
+            Toast ts1 = Toast.makeText(this,"−５",Toast.LENGTH_SHORT);
+            ts1.setGravity(Gravity.TOP, 0, 150);
+            LinearLayout tsLayout1 = (LinearLayout) ts1.getView();
+            TextView tsTV1 = (TextView) tsLayout1.getChildAt(0);
+            tsTV1.setTextSize(100);
+            ts1.show();
             coin = coin - 5;
         }else if(exp == 2){
-            Toast ts = Toast.makeText(this,"爆発!　-3",Toast.LENGTH_SHORT);
-            ts.setGravity(Gravity.TOP, 0, 630);
-            ts.show();
+            Toast ts2 = Toast.makeText(this,"−３",Toast.LENGTH_SHORT);
+            ts2.setGravity(Gravity.TOP, 0, 150);
+            LinearLayout tsLayout2 = (LinearLayout) ts2.getView();
+            TextView tsTV2 = (TextView) tsLayout2.getChildAt(0);
+            tsTV2.setTextSize(100);
+            ts2.show();
             coin = coin - 3;
         }else if(exp == 1) {
-            Toast ts = Toast.makeText(this, "小爆発!　-1", Toast.LENGTH_SHORT);
-            ts.setGravity(Gravity.TOP, 0, 630);
-            ts.show();
+            Toast ts3 = Toast.makeText(this, "−１", Toast.LENGTH_SHORT);
+            ts3.setGravity(Gravity.TOP, 0, 150);
+            LinearLayout tsLayout3 = (LinearLayout) ts3.getView();
+            TextView tsTV3 = (TextView) tsLayout3.getChildAt(0);
+            tsTV3.setTextSize(100);
+            ts3.show();
             coin = coin - 1;
 
             if (img1 == img2 || img2 == img3 || img1 == img3) {
-                Toast t = Toast.makeText(this, "小当たり!　＋２!", Toast.LENGTH_SHORT);
-                t.setGravity(Gravity.TOP, 0, 800);
-                t.show();
+                Toast ts4 = Toast.makeText(this, "＋２!", Toast.LENGTH_SHORT);
+                ts4.setGravity(Gravity.TOP, 0, 150);
+                LinearLayout tsLayout4 = (LinearLayout) ts4.getView();
+                TextView tsTV4 = (TextView) tsLayout4.getChildAt(0);
+                tsTV4.setTextSize(100);
+                ts4.show();
                 coin = coin + 2;
             }
         }else {
 
             if (img1 == img2 && img2 == img3) {
-                Toast ts = Toast.makeText(this, "大当たり!　＋５", Toast.LENGTH_SHORT);
-                ts.setGravity(Gravity.TOP, 0, 750);
-                ts.show();
+                Toast ts5 = Toast.makeText(this, "＋５", Toast.LENGTH_SHORT);
+                ts5.setGravity(Gravity.TOP, 0, 150);
+                LinearLayout tsLayout5 = (LinearLayout) ts5.getView();
+                TextView tsTV5 = (TextView) tsLayout5.getChildAt(0);
+                tsTV5.setTextSize(100);
+                ts5.show();
                 coin = coin + 5;
             } else if (img1 == img2 || img2 == img3 || img1 == img3) {
-                Toast ts = Toast.makeText(this, "小当たり!　＋２!", Toast.LENGTH_SHORT);
-                ts.setGravity(Gravity.TOP, 0, 750);
-                ts.show();
+                Toast ts6 = Toast.makeText(this, "＋２!", Toast.LENGTH_SHORT);
+                ts6.setGravity(Gravity.TOP, 0, 150);
+                LinearLayout tsLayout6 = (LinearLayout) ts6.getView();
+                TextView tsTV6 = (TextView) tsLayout6.getChildAt(0);
+                tsTV6.setTextSize(100);
+                ts6.show();
                 coin = coin + 2;
             }
 
